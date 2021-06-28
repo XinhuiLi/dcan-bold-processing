@@ -1,3 +1,6 @@
+# Input Variables
+StudyFolder=/data3/cnl/xli/reproducibility/out/cpac_abcd/working/cpac_sub-0025427a_ses-1/anat_preproc_freesurfer_52/anat_freesurfer
+
 Path=/output_dir/sub-0025427/ses-1/files
 Subject=0025427
 NameOffMRI=task-rest01
