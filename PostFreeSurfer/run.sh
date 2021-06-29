@@ -1,5 +1,5 @@
 # Input Variables
-StudyFolder=/output_dir/sub-0025427/ses-1/files
+StudyFolder=/data3/cnl/ABCD_intermediates/abcd-hcp-pipeline/sub-0025427/ses-1/files
 Subject=0025427
 SurfaceAtlasDIR=/opt/pipeline/global/templates/standard_mesh_atlases
 GrayordinatesSpaceDIR=/opt/pipeline/global/templates/91282_Greyordinates
@@ -53,6 +53,7 @@ NativeFolder="Native"
 FreeSurferFolder="$Subject"
 FreeSurferInput="T1w_acpc_dc_restore_1mm"
 AtlasTransform="acpc_dc2standard"
+# 
 InverseAtlasTransform="standard2acpc_dc"
 AtlasSpaceT1wImage="T1w_restore"
 AtlasSpaceT2wImage="T2w_restore"
