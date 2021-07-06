@@ -1,6 +1,6 @@
 # Input Variables
 StudyFolder=/data3/cnl/xli/cpac_features/abcd/PostFreeSurfer
-Subject=sub-0025427a
+Subject=0025427a
 SurfaceAtlasDIR=/data3/cnl/freesurfer/DCAN-HCP/global/templates/standard_mesh_atlases
 GrayordinatesSpaceDIR=/data3/cnl/freesurfer/DCAN-HCP/global/templates/91282_Greyordinates
 GrayordinatesResolutions=2
@@ -38,7 +38,7 @@ useT2=false
 
 # default parameters
 CorrectionSigma=$(echo "sqrt ( 200 )" | bc -l)
-RegName=FS
+# RegName=FS
 InflateExtraScale=1
 
 PipelineScripts=${HCPPIPEDIR_PostFS}
@@ -54,7 +54,7 @@ FreeSurferFolder="$Subject"
 FreeSurferInput="T1w_acpc_dc_restore_1mm"
 AtlasTransformCPAC=/data3/cnl/xli/reproducibility/out/cpac_abcd/output/cpac_cpac_abcd-options/sub-0025427a_ses-1/anat/sub-0025427a_ses-1_from-T1w_to-template_mode-image_xfm.nii.gz # from-T1w_to-template_mode-image_xfm
 AtlasTransform="acpc_dc2standard"
-InverseAtlasTransformCPAC=/data3/cnl/xli/reproducibility/out/cpac_abcd/output/cpac_cpac_abcd-options/sub-0025427a_ses-1/anat/sub-0025427a_ses-1_from-template_to-T1w_mode-image_xfm.nii.gz
+InverseAtlasTransformCPAC=/data3/cnl/cpac1.8.1/abcd_scout/output/cpac_cpac_abcd-options/sub-0025427_ses-1/anat/sub-0025427_ses-1_from-template_to-T1w_mode-image_xfm.nii.gz
 InverseAtlasTransformABCD=/data3/cnl/fmriprep/Lei_working/CPAC_XCP/ABCD/ABCD_Testing_With_Intermediate/sub-0025427/ses-1/files/MNINonLinear/xfms/standard2acpc_dc.nii.gz
 InverseAtlasTransform="standard2acpc_dc"
 AtlasSpaceT1wImageCPAC=/data3/cnl/xli/reproducibility/out/cpac_abcd/working/cpac_sub-0025427a_ses-1/FSL-ABCD_T1_to_template_81/sub-0025427a_run-1_T1w_resample_noise_corrected_corrected_warp_maths_restore_maths_warp.nii.gz
@@ -127,7 +127,7 @@ if [ ! -e ${AtlasTransform}.nii.gz ] ; then
 fi
 
 if [ ! -e ${InverseAtlasTransform}.nii.gz ] ; then
-	cp ${InverseAtlasTransformABCD} ${InverseAtlasTransform}.nii.gz
+	cp ${InverseAtlasTransformCPAC} ${InverseAtlasTransform}.nii.gz
 fi
 
 echo "$StudyFolder" "$Subject" "$T1wFolder" "$AtlasSpaceFolder" "$NativeFolder" "$FreeSurferFolder" "$FreeSurferInput" "$T1wRestoreImage" "$T2wRestoreImage" "$SurfaceAtlasDIR" "$HighResMesh" "$LowResMeshes" "$AtlasTransform" "$InverseAtlasTransform" "$AtlasSpaceT1wImage" "$AtlasSpaceT2wImage" "$T1wImageBrainMask" "$FreeSurferLabels" "$GrayordinatesSpaceDIR" "$GrayordinatesResolutions" "$SubcorticalGrayLabels" "$RegName" "$InflateExtraScale" "$useT2"
