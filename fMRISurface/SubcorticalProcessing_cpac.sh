@@ -33,23 +33,30 @@ echo "${script_name}: Sigma: ${Sigma}"
 #NOTE: wmparc has dashes in structure names, which -cifti-create-* won't accept
 #ROIs files have acceptable structure names
 
+
 #deal with fsl_sub being silly when we want to use numeric equality on decimals
 unset POSIXLY_CORRECT
 
-# Create scratch space directory to run I/O intensive wb_commands
-TMPDIR=${TMPDIR:-/tmp/$USER}
-if [ ! -d ${TMPDIR} ]; then
-    mkdir -p ${TMDPIR}
-    chmod 770 ${TMPDIR} || true
-fi
-RandomHash=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 13 ; echo '')
-TempSubjectDIR="${TMPDIR}/$RandomHash"
-mkdir -p $TempSubjectDIR
+## Create scratch space directory to run I/O intensive wb_commands
+#TMPDIR=${TMPDIR:-/tmp/$USER}
+#if [ ! -d ${TMPDIR} ]; then
+#    mkdir -p ${TMDPIR}
+#    chmod 770 ${TMPDIR} || true
+#fi
+#RandomHash=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 13 ; echo '')
+#TempSubjectDIR="${TMPDIR}/$RandomHash"
+#mkdir -p $TempSubjectDIR
 
-function clean_up {
-    echo Exit code caught. Removing temp scratch space directory
-    rm -fR ${TempSubjectDIR}
-}
+#hj edit: make a temp dir
+TempSubjectDIR="/data3/cnl/hjin/cpac_features/abcd/PostFreeSurfer/TempSubjectDIR"
+mkdir -p $TempSubjectDIR
+chmod 770 $TempSubjectDIR
+
+#function clean_up {
+#    echo Exit code caught. Removing temp scratch space directory
+#    rm -fR ${TempSubjectDIR}
+#}
+
 
 
 #generate subject-roi space fMRI cifti for subcortical
@@ -90,17 +97,20 @@ else
     wb_command -cifti-resample ${TempSubjectDIR}/${NameOffMRI}_temp_subject_dilate.dtseries.nii COLUMN ${TempSubjectDIR}/${NameOffMRI}_temp_template.dlabel.nii COLUMN ADAP_BARY_AREA CUBIC ${TempSubjectDIR}/${NameOffMRI}_temp_atlas.dtseries.nii -volume-predilate 10
     cp ${TempSubjectDIR}/${NameOffMRI}_temp_atlas.dtseries.nii ${ResultsFolder}/${NameOffMRI}_temp_atlas.dtseries.nii
 fi
+
+
+
 #delete the temp space directory
 trap clean_up EXIT SIGTERM SIGHUP SIGINT SIGQUIT
-rm -rf ${TempSubjectDIR}
+#rm -rf ${TempSubjectDIR}
 
 #delete common temporaries
-rm -f ${ResultsFolder}/${NameOffMRI}_temp_subject_dilate.dtseries.nii
-rm -f ${ResultsFolder}/${NameOffMRI}_temp_template.dlabel.nii
+#rm -f ${ResultsFolder}/${NameOffMRI}_temp_subject_dilate.dtseries.nii
+#rm -f ${ResultsFolder}/${NameOffMRI}_temp_template.dlabel.nii
 
 #write output volume, delete temporary
 #NOTE: $VolumefMRI contains a path in it, it is not a file in the current directory
-${CARET7DIR}/wb_command -cifti-separate ${ResultsFolder}/${NameOffMRI}_temp_atlas.dtseries.nii COLUMN -volume-all "$VolumefMRI"_AtlasSubcortical_s"$SmoothingFWHM".nii.gz
+wb_command -cifti-separate ${ResultsFolder}/${NameOffMRI}_temp_atlas.dtseries.nii COLUMN -volume-all "$VolumefMRI"_AtlasSubcortical_s"$SmoothingFWHM".nii.gz
 rm -f ${ResultsFolder}/${NameOffMRI}_temp_atlas.dtseries.nii
 
 echo "${script_name}: END"
