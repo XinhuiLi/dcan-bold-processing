@@ -5,3 +5,6 @@
 
 ### Step 2. fMRISurface
 2.1 RibbonVolumeToSurfaceMapping
+2.2 SurfaceSmoothing
+2.3 SubcorticalProcessing
+2.4 CreateDenseTimeseries
